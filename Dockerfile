@@ -1,6 +1,6 @@
-ARG ELIXIR_VERSION=1.15.6
-ARG OTP_VERSION=26.1.2
-ARG DEBIAN_VERSION=buster-20230612-slim
+ARG ELIXIR_VERSION=1.18.4
+ARG OTP_VERSION=28.1
+ARG DEBIAN_VERSION=bullseye-20250908-slim
 
 ARG BUILDER_IMAGE="hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-${DEBIAN_VERSION}"
 
@@ -10,7 +10,7 @@ RUN apt-get update -y && apt-get install -y git wget \
     && apt-get clean && rm -f /var/lib/apt/lists/*_*
 RUN wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b /usr/local/bin/ v0.16.0
 
-ENV MIX_HOME /var/mix
+ENV MIX_HOME=/var/mix
 
 RUN mix local.hex --force && \
     mix archive.install --force github rrrene/bunt && \
