@@ -10,9 +10,6 @@ RUN apt-get update -y && apt-get install -y git wget \
     && apt-get clean && rm -f /var/lib/apt/lists/*_*
 RUN wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b /usr/local/bin/ v0.21.0
 
-# Fix git safe.directory issue in GitHub Actions
-RUN git config --global --add safe.directory /github/workspace
-
 ENV MIX_HOME=/var/mix
 
 RUN mix local.hex --force && \

@@ -2,6 +2,9 @@
 
 cd "$GITHUB_WORKSPACE"
 
+# Fix git safe.directory issue in GitHub Actions
+git config --global --add safe.directory /github/workspace
+
 export REVIEWDOG_GITHUB_API_TOKEN="${INPUT_GITHUB_TOKEN}"
 
 mix credo suggest --strict --format=flycheck \
