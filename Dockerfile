@@ -8,7 +8,7 @@ FROM ${BUILDER_IMAGE}
 
 RUN apt-get update -y && apt-get install -y git wget \
     && apt-get clean && rm -f /var/lib/apt/lists/*_*
-RUN wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b /usr/local/bin/ v0.16.0
+RUN wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b /usr/local/bin/ v0.21.0
 
 ENV MIX_HOME=/var/mix
 
