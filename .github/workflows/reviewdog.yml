@@ -1,27 +1,39 @@
 name: reviewdog
-on: [pull_request]
+on:
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
 jobs:
   credo:
     name: runner / credo
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code.
-        uses: actions/checkout@v2
-      - uses: erlef/setup-beam@v1
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
         with:
-          otp-version: 24.0
-          elixir-version: 1.12
+          otp-version: "27.3"
+          elixir-version: "1.18.4"
       - name: Install Dependencies
         run: |
           mix local.rebar --force
           mix local.hex --force
           mix deps.get
-      - name: credo
+      - name: credo (github-pr-check)
         uses: ./
         with:
-          github_token: ${{ secrets.github_token }}
-      - name: credo-pr-review
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-check
+          level: info
+      - name: credo (github-pr-review)
         uses: ./
         with:
-          github_token: ${{ secrets.github_token }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
+          level: info
