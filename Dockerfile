@@ -6,7 +6,7 @@ ARG BUILDER_IMAGE="hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-$
 
 FROM ${BUILDER_IMAGE}
 
-RUN apt-get update -y && apt-get install -y git wget \
+RUN apt-get update -y && apt-get install -y git wget build-essential \
     && apt-get clean && rm -f /var/lib/apt/lists/*_*
 RUN wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b /usr/local/bin/ v0.21.0
 
