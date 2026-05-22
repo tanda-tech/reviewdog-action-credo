@@ -60,8 +60,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
         with:
-          otp-version: "27.3"
-          elixir-version: "1.18.4"
+          otp-version: "28.1"
+          elixir-version: "1.19.5"
       - name: Install dependencies
         run: mix deps.get
       - name: credo
