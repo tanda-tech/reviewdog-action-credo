@@ -15,12 +15,28 @@ inputs:
       github-pr-review can use Markdown and add a link to rule page in reviewdog reports.
     default: 'github-pr-check'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.github_token }}
-    - ${{ inputs.level }}
-    - ${{ inputs.reporter }}
+  using: 'composite'
+  steps:
+    - name: Install reviewdog
+      uses: reviewdog/action-setup@v1
+      with:
+        reviewdog_version: v0.21.0
+    - name: Run credo with reviewdog
+      shell: bash
+      env:
+        REVIEWDOG_GITHUB_API_TOKEN: ${{ inputs.github_token }}
+        INPUT_LEVEL: ${{ inputs.level }}
+        INPUT_REPORTER: ${{ inputs.reporter }}
+      run: |
+        set -o pipefail
+        mix credo suggest --strict --format=flycheck \
+          | reviewdog \
+              -efm="%f:%l:%c: %t: %m" \
+              -efm="%f:%l: %t: %m" \
+              -name="credo" \
+              -reporter="${INPUT_REPORTER}" \
+              -level="${INPUT_LEVEL}" \
+              -fail-level="${INPUT_LEVEL}"
 branding:
   icon: 'chevron-down'
   color: 'green'
