@@ -13,6 +13,7 @@ RUN wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/in
 ENV MIX_HOME=/var/mix
 
 RUN mix local.hex --force && \
+    mix local.rebar --force && \
     mix archive.install --force github rrrene/bunt && \
     mix archive.install --force github rrrene/credo
 
